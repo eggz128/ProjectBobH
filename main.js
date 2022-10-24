@@ -4,6 +4,7 @@ function init() {
     reset(); //Clear the board
 
     let cells = document.querySelectorAll("td"); //Doing this a lot... should probably do it just and store it in a const in scope to all functions
+
     //Assigns a click listener to all cells.
     cells.forEach(ref => {
         ref.addEventListener("click", event => {
@@ -20,6 +21,17 @@ function reset() {
     cells.forEach(ref => {
         ref.classList.remove("active", "bl", "wh", "yl")
     })
+
+    let shuffledLetters = letters //letters currently at bottom of file
+        .map(value => ({ value, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(({ value }) => value)
+
+    //Swap hardcoded cell content for suffled letters
+    let cellLetters = document.querySelectorAll("td > span");
+    for (let cellLetter = 0; cellLetter < cellLetters.length; cellLetter++) {
+        cellLetters[cellLetter].innerText = shuffledLetters[cellLetter];
+    }
 }
 
 function assignStartLetter() {
@@ -51,14 +63,14 @@ function setLetter(event) {
 
 }
 function setColour(e) {
-    
+
     let key = e.key.toLowerCase()
     switch (key) {
         case "b":
             questionCell.classList.add("bl")
             break;
         case "w":
-            
+
             questionCell.classList.add("wh")
             break;
 
@@ -66,7 +78,7 @@ function setColour(e) {
             console.log(e) //Any other key cancels the anim
             break;
     }
-    
+
     questionCell.classList.remove("active")
 
 }
@@ -105,3 +117,18 @@ function randomBoard() {
 function stopRandom() {
     clearInterval(randomIntervalHandler)
 }
+
+/* Letters and Qs */
+//ToDo: move this to external JSON
+
+var en_letters = [
+    "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
+]
+
+var cy_letters = [
+    "A","B","C","Ch","D","Dd","E","F","Ff","G","Ng","H","I","J","L","Ll","M","N","O","P","Ph","R","Rh","S","T","Th","U","W","Y"
+]
+
+var letters = cy_letters
+
+
