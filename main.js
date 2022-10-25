@@ -129,6 +129,6 @@ var cy_letters = [
     "A","B","C","Ch","D","Dd","E","F","Ff","G","Ng","H","I","J","L","Ll","M","N","O","P","Ph","R","Rh","S","T","Th","U","W","Y"
 ]
 
-var letters = cy_letters
+var letters = en_letters
 
 

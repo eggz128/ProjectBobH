@@ -81,7 +81,7 @@ span {
 
 .bl,
 .bl span {
-    background-color: mediumturquoise;
+    background-color: deepskyblue;
     color: transparent;
 }
 
@@ -94,6 +94,12 @@ span {
 .yl,
 .yl span {
     background-color: yellow;
+    color: transparent;
+}
+
+.bk,
+.bk span {
+    background-color: black;
     color: transparent;
 }
 
