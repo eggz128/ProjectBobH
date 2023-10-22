@@ -14,6 +14,14 @@ function init() {
 
     assignStartLetter();
 }
+function initEn(){
+    letters = en_letters
+    init();
+}
+function initCy(){
+    letters = cy_letters
+    init();
+}
 
 function reset() {
     let cells = document.querySelectorAll("td");
@@ -36,7 +44,7 @@ function reset() {
 
 function assignStartLetter() {
     let cells = document.querySelectorAll("td");
-    let rndcell = Math.floor(Math.random() * cells.length + 1);
+    let rndcell = Math.floor(Math.random() * cells.length + 1); 
     //cells[rndcell].classList.add("active")
     questionCell = cells[rndcell]
 
@@ -88,7 +96,7 @@ function setColour(e) {
 var randomIntervalHandler;
 
 function randomBoard() {
-    reset();
+    //reset();
 
     randomIntervalHandler = setInterval(function () {
         let cells = document.querySelectorAll("td");
@@ -117,6 +125,8 @@ function randomBoard() {
 function stopRandom() {
     clearInterval(randomIntervalHandler)
 }
+
+
 
 /* Letters and Qs */
 //ToDo: move this to external JSON
