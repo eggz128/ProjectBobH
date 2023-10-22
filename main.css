@@ -5,13 +5,14 @@
     --hex-h: 100px
 }
 
-
 body {
+    background: black;
+}
+
+table {
     font-family: 'Seven Segment', sans-serif;
     font-size: 75px;
     text-transform: capitalize;
-    background: black;
-
 }
 
 
@@ -117,4 +118,12 @@ span {
     to {
         opacity: 1;
     }
+}
+
+div {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 300px;
+    color: white;
 }
