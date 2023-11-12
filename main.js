@@ -76,10 +76,11 @@ function setColour(e) {
     switch (key) {
         case "b":
             questionCell.classList.add("bl")
+            questionCell.classList.remove("wh")
             break;
         case "w":
-
             questionCell.classList.add("wh")
+            questionCell.classList.remove("bl")
             break;
 
         default:
