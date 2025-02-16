@@ -13,8 +13,9 @@ function init() {
             setLetter(event);
         })
     })
-
-    assignStartLetter();
+    setTimeout(() => { //Short pause before assigning a start letter. Seems to be some sort of race in browser that sometimes doesnt result in the first cell being selected.
+        assignStartLetter();
+    }, 1000)
 }
 
 function initEn() {
