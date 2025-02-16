@@ -112,10 +112,14 @@ function setColour(e) {
         cells.forEach(ref => {
             ref.classList.add("active")
             ref.getAnimations()[0].currentTime = 0; //Ensure animation is synchronised across all active cells.
-            setTimeout(() => {
-                document.querySelectorAll(".active").forEach(ref => {ref.classList.remove("active")});
-            }, 3000);
         })
+        setTimeout(() => { //Flash for 3s, then randomise board colours for 3s
+            document.querySelectorAll(".active").forEach(ref => {ref.classList.remove("active")});
+            randomBoard();
+            setTimeout(() => {
+                stopRandom();
+            }, 3000);
+        }, 3000);
     }
     if (boardState.hasWhiteWon()) {
         console.log("White team has won!");
@@ -124,10 +128,14 @@ function setColour(e) {
         cells.forEach(ref => {
             ref.classList.add("active")
             ref.getAnimations()[0].currentTime = 0; //Ensure animation is synchronised across all active cells.
-            setTimeout(() => {
-                document.querySelectorAll(".active").forEach(ref => {ref.classList.remove("active")});
-            }, 3000);
         })
+        setTimeout(() => {  //Flash for 3s, then randomise board colours for 3s
+            document.querySelectorAll(".active").forEach(ref => {ref.classList.remove("active")});
+            randomBoard();
+            setTimeout(() => {
+                stopRandom();
+            }, 3000);
+        }, 3000);
     }
 
     // Check for potential winning moves
@@ -186,9 +194,12 @@ function randomBoard() {
 
         })
     }, 500)
+    console.log(`Randomising board with interval handler: ${randomIntervalHandler}`)
+
 }
 
 function stopRandom() {
+    console.log(`Stopping random board with interval handler: ${randomIntervalHandler}`)
     clearInterval(randomIntervalHandler)
 }
 
