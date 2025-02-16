@@ -27,6 +27,11 @@ function initCy() {
 }
 
 function reset() {
+    //If board is being randomised - stop it
+    if(randomIntervalHandler) {
+        clearInterval(randomIntervalHandler)
+    }
+
     let cells = document.querySelectorAll("td");
     //Recet cell styles
     cells.forEach(ref => {
@@ -102,9 +107,27 @@ function setColour(e) {
     // Check for current wins
     if (boardState.hasBlueWon()) {
         console.log("Blue team has won!");
+        //Flash blue plus border, then after 3s call randomise board colour
+        let cells = document.querySelectorAll(".bl");
+        cells.forEach(ref => {
+            ref.classList.add("active")
+            ref.getAnimations()[0].currentTime = 0; //Ensure animation is synchronised across all active cells.
+            setTimeout(() => {
+                document.querySelectorAll(".active").forEach(ref => {ref.classList.remove("active")});
+            }, 3000);
+        })
     }
     if (boardState.hasWhiteWon()) {
         console.log("White team has won!");
+        //Flash blue plus border, then after 3s call randomise board colour
+        let cells = document.querySelectorAll(".wh");
+        cells.forEach(ref => {
+            ref.classList.add("active")
+            ref.getAnimations()[0].currentTime = 0; //Ensure animation is synchronised across all active cells.
+            setTimeout(() => {
+                document.querySelectorAll(".active").forEach(ref => {ref.classList.remove("active")});
+            }, 3000);
+        })
     }
 
     // Check for potential winning moves
