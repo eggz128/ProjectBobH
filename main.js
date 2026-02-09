@@ -177,13 +177,14 @@ class BlockbustersGame {
 
         console.log(`[Blockbusters] Potential Win Check: Blue=${blueMoves.length} moves, White=${whiteMoves.length} moves`);
 
-        if (blueMoves.length > 0) this.flashTeam('bl');
-        if (whiteMoves.length > 0) this.flashTeam('wh');
+        if (blueMoves.length > 0) this.flashTeam('bl', false);
+        if (whiteMoves.length > 0) this.flashTeam('wh', false);
     }
 
-    flashTeam(className) {
-        console.log(`[Blockbusters] Flashing team: ${className}`);
-        const cells = document.querySelectorAll(`td.${className}, th.${className}`);
+    flashTeam(className, includeHeaders = false) {
+        console.log(`[Blockbusters] Flashing team: ${className} (headers: ${includeHeaders})`);
+        const selector = includeHeaders ? `td.${className}, th.${className}` : `td.${className}`;
+        const cells = document.querySelectorAll(selector);
         cells.forEach(cell => {
             cell.classList.add("active");
             const anims = cell.getAnimations();
@@ -199,7 +200,7 @@ class BlockbustersGame {
 
     handleWin(team) {
         console.log(`[Blockbusters] ${team} team HAS WON!`);
-        this.flashTeam(team === 'Blue' ? 'bl' : 'wh');
+        this.flashTeam(team === 'Blue' ? 'bl' : 'wh', true);
         setTimeout(() => {
             this.startShowtime();
             setTimeout(() => this.stopRandom(), 3000);
