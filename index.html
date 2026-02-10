@@ -79,11 +79,19 @@
             </tr>
         </tfoot>
     </table>
-    <div>
+    <div id="controls">
+        <div id="scoreboard">
+            <div class="score-item bl">Blue: <span id="blue-score">0</span></div>
+            <div class="score-item wh">White: <span id="white-score">0</span></div>
+        </div>
+        <hr>
         <button onclick="initEn()">Reset En</button>
         <button onclick="initCy()">Reset Cy</button>
         <button onclick="randomBoard()">Random</button>
         <button onclick="stopRandom()">Stop Random</button>
+        <hr>
+        <button onclick="resetBlueScore()">Reset Blue Score</button>
+        <button onclick="resetWhiteScore()">Reset White Score</button>
         <p>Key B = Blue, Key W = White</p>
     </div>
 

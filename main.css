@@ -120,10 +120,89 @@ span {
     }
 }
 
-div {
+#controls {
     position: absolute;
-    top: 0px;
-    right: 0px;
-    width: 300px;
+    top: 20px;
+    right: 20px;
+    width: 280px;
     color: white;
+    background: rgba(40, 40, 40, 0.8);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #444;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#scoreboard {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.score-item {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Seven Segment', sans-serif;
+}
+
+.score-item span {
+    display: inline;
+    position: static;
+    background-color: transparent;
+    padding: 0;
+    clip-path: none;
+    color: inherit;
+    font-size: 36px;
+}
+
+.score-item.bl {
+    border: 2px solid deepskyblue;
+    color: deepskyblue;
+    background: rgba(0, 191, 255, 0.1);
+}
+
+.score-item.wh {
+    border: 2px solid white;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#controls button {
+    background: #333;
+    border: 1px solid #555;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+}
+
+#controls button:hover {
+    background: #444;
+    border-color: #777;
+    transform: translateY(-1px);
+}
+
+#controls hr {
+    border: none;
+    border-top: 1px solid #444;
+    margin: 5px 0;
+}
+
+#controls p {
+    font-size: 14px;
+    color: #aaa;
+    margin: 0;
+    text-align: center;
 }

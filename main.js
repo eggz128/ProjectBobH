@@ -95,6 +95,8 @@ class BlockbustersGame {
         this.alphabet = ALPHABETS.CY;
         this.randomInterval = null;
         this.isResetting = false;
+        this.blueScore = 0;
+        this.whiteScore = 0;
 
         // Use a window listener for keys to be more robust
         window.addEventListener("keydown", (e) => this.handleKeyPress(e));
@@ -103,7 +105,21 @@ class BlockbustersGame {
     init() {
         this.reset();
         this.bindClickEvents();
+        this.updateScoreDisplay();
         setTimeout(() => this.assignRandomStart(), 500);
+    }
+
+    updateScoreDisplay() {
+        const blueElem = document.getElementById("blue-score");
+        const whiteElem = document.getElementById("white-score");
+        if (blueElem) blueElem.innerText = this.blueScore;
+        if (whiteElem) whiteElem.innerText = this.whiteScore;
+    }
+
+    resetScore(team) {
+        if (team === 'blue') this.blueScore = 0;
+        else if (team === 'white') this.whiteScore = 0;
+        this.updateScoreDisplay();
     }
 
     reset() {
@@ -152,6 +168,19 @@ class BlockbustersGame {
     }
 
     captureCell(row, col, state) {
+        const oldState = this.state.grid[row][col];
+        if (oldState === state) return;
+
+        // Subtract points from old owner
+        if (oldState === CELL_STATE.BLUE) this.blueScore -= 5;
+        else if (oldState === CELL_STATE.WHITE) this.whiteScore -= 5;
+
+        // Add points to new owner
+        if (state === CELL_STATE.BLUE) this.blueScore += 5;
+        else if (state === CELL_STATE.WHITE) this.whiteScore += 5;
+
+        this.updateScoreDisplay();
+
         const cell = this.activeCell;
         this.state.setCell(row, col, state);
 
@@ -244,3 +273,5 @@ function initEn() { game.alphabet = ALPHABETS.EN; game.init(); }
 function initCy() { game.alphabet = ALPHABETS.CY; game.init(); }
 function randomBoard() { game.startShowtime(); }
 function stopRandom() { game.stopRandom(); }
+function resetBlueScore() { game.resetScore('blue'); }
+function resetWhiteScore() { game.resetScore('white'); }
