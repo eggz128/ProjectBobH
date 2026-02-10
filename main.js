@@ -131,7 +131,8 @@ class BlockbustersGame {
 
     selectCell(cell) {
         if (this.isResetting) return;
-        document.querySelectorAll("td.active").forEach(c => c.classList.remove("active"));
+        // Clear ALL active/pulsing elements (board and headers)
+        document.querySelectorAll(".active").forEach(c => c.classList.remove("active"));
         this.activeCell = cell;
         cell.classList.add("active");
         cell.setAttribute("tabindex", "-1");
@@ -177,12 +178,13 @@ class BlockbustersGame {
 
         console.log(`[Blockbusters] Potential Win Check: Blue=${blueMoves.length} moves, White=${whiteMoves.length} moves`);
 
-        if (blueMoves.length > 0) this.flashTeam('bl', false);
-        if (whiteMoves.length > 0) this.flashTeam('wh', false);
+        // Pass 'true' for shouldPersistent to avoid the 3s timeout
+        if (blueMoves.length > 0) this.flashTeam('bl', false, true);
+        if (whiteMoves.length > 0) this.flashTeam('wh', false, true);
     }
 
-    flashTeam(className, includeHeaders = false) {
-        console.log(`[Blockbusters] Flashing team: ${className} (headers: ${includeHeaders})`);
+    flashTeam(className, includeHeaders = false, shouldPersistent = false) {
+        console.log(`[Blockbusters] Flashing team: ${className} (headers: ${includeHeaders}, persistent: ${shouldPersistent})`);
         const selector = includeHeaders ? `td.${className}, th.${className}` : `td.${className}`;
         const cells = document.querySelectorAll(selector);
         cells.forEach(cell => {
@@ -191,11 +193,13 @@ class BlockbustersGame {
             if (anims.length > 0) anims[0].currentTime = 0;
         });
 
-        setTimeout(() => {
-            cells.forEach(cell => {
-                if (cell !== this.activeCell) cell.classList.remove("active");
-            });
-        }, 3000);
+        if (!shouldPersistent) {
+            setTimeout(() => {
+                cells.forEach(cell => {
+                    if (cell !== this.activeCell) cell.classList.remove("active");
+                });
+            }, 3000);
+        }
     }
 
     handleWin(team) {
