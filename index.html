@@ -8,13 +8,13 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
     <link href="https://fonts.cdnfonts.com/css/seven-segment" rel="stylesheet">
-    <script src='main.js'></script>
+    <script type="module" src='main.js'></script>
     <style>
 
     </style>
 </head>
 
-<body onload="init()">
+<body>
     <table>
         <thead>
             <tr>
@@ -85,13 +85,13 @@
             <div class="score-item bl">Blue: <span id="blue-score">0</span></div>
         </div>
         <hr>
-        <button onclick="initEn()">Reset En</button>
-        <button onclick="initCy()">Reset Cy</button>
-        <button onclick="randomBoard()">Random</button>
-        <button onclick="stopRandom()">Stop Random</button>
+        <button id="reset-en">Reset En</button>
+        <button id="reset-cy">Reset Cy</button>
+        <button id="random-board">Random</button>
+        <button id="stop-random">Stop Random</button>
         <hr>
-        <button onclick="resetBlueScore()">Reset Blue Score</button>
-        <button onclick="resetWhiteScore()">Reset White Score</button>
+        <button id="reset-blue-score">Reset Blue Score</button>
+        <button id="reset-white-score">Reset White Score</button>
         <p>Key B = Blue, Key W = White</p>
     </div>
 
