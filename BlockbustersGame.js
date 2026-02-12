@@ -156,7 +156,11 @@ export class BlockbustersGame {
     }
 
     startShowtime() {
-        if (this.randomInterval) return;
+        // No cells should be selected during showtime
+        this.activeCell = null;
+        document.querySelectorAll(".active").forEach(c => c.classList.remove("active"));
+
+        if (this.randomInterval) return; // Don't start multiple intervals
         this.randomInterval = setInterval(() => {
             document.querySelectorAll("td").forEach(cell => {
                 const rnd = Math.floor(Math.random() * 3);
