@@ -26,8 +26,8 @@ export class BlockbustersGame {
     updateScoreDisplay() {
         const blueElem = document.getElementById("blue-score");
         const whiteElem = document.getElementById("white-score");
-        if (blueElem) blueElem.innerText = this.blueScore;
-        if (whiteElem) whiteElem.innerText = this.whiteScore;
+        if (blueElem) blueElem.innerText = String(this.blueScore).padStart(3, '0');
+        if (whiteElem) whiteElem.innerText = String(this.whiteScore).padStart(3, '0');
     }
 
     resetScore(team) {
