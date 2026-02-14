@@ -1,5 +1,5 @@
 import { BlockbustersGame } from './BlockbustersGame.js';
-import { ALPHABETS } from './constants.js';
+import { ALPHABETS, CELL_STATE } from './constants.js';
 
 const game = new BlockbustersGame();
 
@@ -54,4 +54,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const resetWhiteBtn = document.getElementById('reset-white-score');
     if (resetWhiteBtn) resetWhiteBtn.addEventListener('click', resetWhiteScore);
+
+    const whiteScoreBtn = document.getElementById('white-score-btn');
+    if (whiteScoreBtn) whiteScoreBtn.addEventListener('click', () => {
+        game.captureActiveCell(CELL_STATE.WHITE);
+    });
+
+    const blueScoreBtn = document.getElementById('blue-score-btn');
+    if (blueScoreBtn) blueScoreBtn.addEventListener('click', () => {
+        game.captureActiveCell(CELL_STATE.BLUE);
+    });
 });

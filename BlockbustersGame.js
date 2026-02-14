@@ -106,6 +106,13 @@ export class BlockbustersGame {
         this.activeCell = null;
     }
 
+    captureActiveCell(state) {
+        if (!this.activeCell || this.isResetting) return;
+        const row = this.activeCell.parentNode.rowIndex - 1;
+        const col = this.activeCell.cellIndex - 1;
+        this.captureCell(row, col, state);
+    }
+
     checkActualWins() {
         if (this.state.checkWin(CELL_STATE.BLUE)) { this.handleWin("Blue"); return true; }
         if (this.state.checkWin(CELL_STATE.WHITE)) { this.handleWin("White"); return true; }

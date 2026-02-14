@@ -157,7 +157,18 @@ span {
     font-size: 24px;
     font-weight: bold;
     font-family: 'Seven Segment', sans-serif;
+    cursor: pointer;
+    /* transition: transform 0.1s, opacity 0.2s; */
 }
+
+
+/* .score-item:hover {
+    opacity: 0.8;
+}
+
+.score-item:active {
+    transform: scale(0.95);
+} */
 
 .score-item span {
     font-family: 'DSEG14 Classic', sans-serif;
@@ -182,7 +193,7 @@ span {
     background: rgba(255, 255, 255, 0.1);
 }
 
-#controls button {
+#controls>button {
     background: #333;
     border: 1px solid #555;
     color: white;
@@ -193,7 +204,7 @@ span {
     font-weight: 600;
 }
 
-#controls button:hover {
+#controls>button:hover {
     background: #444;
     border-color: #777;
     transform: translateY(-1px);
