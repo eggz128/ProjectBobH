@@ -168,6 +168,44 @@
                 transform: translateY(0);
             }
         }
+
+        .controls-container {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .btn-secondary {
+            background-color: #444;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background-color: #555;
+        }
+
+        .btn-large {
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            background-color: var(--accent);
+        }
+
+        .btn-large:hover {
+            background-color: #ff5252;
+        }
+
+        .status-container {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #888;
+        }
     </style>
 </head>
 
@@ -187,6 +225,16 @@
     <div id="letters-container"></div>
 
     <div id="questions-display"></div>
+
+    <div id="controls-container" class="controls-container" style="display: none;">
+        <button class="btn btn-large" onclick="nextQuestion()">Next Question</button>
+    </div>
+
+    <div class="status-container">
+        <span id="questions-status"></span>
+        <button class="btn-secondary" id="resetBtn" style="display: none; margin-left: 10px;"
+            onclick="resetUsedQuestions()">Reset Used Questions</button>
+    </div>
 
     <script>
         document.getElementById('csvInput').addEventListener('change', function (e) {
@@ -210,6 +258,10 @@
             questionbank: {} // Object keyed by letter, containing arrays of questions
         };
 
+        let selectedQuestions = {}; // { "A": {id, question...} }
+        let activeLetter = null;
+        let usedQuestionIds = new Set();
+
         function processCSV(csvText) {
             // Need to parse CSV manually to handle quoted fields containing commas
             const rows = parseCSVInternal(csvText);
@@ -225,6 +277,13 @@
                 letters: [],
                 questionbank: {}
             };
+            selectedQuestions = {};
+            usedQuestionIds = new Set();
+            activeLetter = null;
+            document.getElementById('questions-display').innerHTML = '';
+            document.getElementById('controls-container').style.display = 'none';
+            document.getElementById('questions-status').textContent = '';
+            document.getElementById('resetBtn').style.display = 'none';
 
             // Row 0 is headers: langueage,letters,id,letter,question,answer,trivia
             // Row 1 contains the "metadata": Language and the master list of letters
@@ -335,21 +394,49 @@
         }
 
         function showQuestionsForLetter(letter, btnElement) {
+            activeLetter = letter;
+
             // Highlight active button
-            document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active'));
-            btnElement.classList.add('active');
+            if (btnElement) {
+                document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active'));
+                btnElement.classList.add('active');
+            } else {
+                // Find button by text if element not provided (e.g. from nextQuestion)
+                document.querySelectorAll('.letter-btn').forEach(b => {
+                    b.classList.toggle('active', b.textContent === letter);
+                });
+            }
 
             const display = document.getElementById('questions-display');
             display.innerHTML = '';
 
-            const questions = parsedData.questionbank[letter] || [];
+            const controls = document.getElementById('controls-container');
+            const resetBtn = document.getElementById('resetBtn');
+            const status = document.getElementById('questions-status');
 
-            if (questions.length === 0) {
-                display.innerHTML = `<div style="text-align:center; padding: 2rem; color: #888;">No questions available for letter '${letter}'</div>`;
-                return;
+            // If no question selected yet for this letter, pick one
+            if (!selectedQuestions[letter]) {
+                const pick = pickRandomQuestion(letter);
+                if (pick) {
+                    selectedQuestions[letter] = pick;
+                    usedQuestionIds.add(pick.id);
+                } else {
+                    selectedQuestions[letter] = {
+                        question: "N/A - out of questions",
+                        answer: "N/A - out of questions",
+                        trivia: ""
+                    };
+                }
             }
 
-            questions.forEach(q => {
+            const q = selectedQuestions[letter];
+
+            if (!q) {
+                // This case should ideally not be hit now with the placeholder logic above,
+                // but kept as a fallback.
+                display.innerHTML = `<div style="text-align:center; padding: 2rem; color: #888;">No questions available for letter '${letter}'</div>`;
+                controls.style.display = 'none';
+            } else {
                 const card = document.createElement('div');
                 card.className = 'question-card';
 
@@ -364,7 +451,53 @@
                     ${triviaHtml}
                 `;
                 display.appendChild(card);
-            });
+                controls.style.display = 'flex';
+            }
+
+            // Update status and show reset button
+            const totalCount = Object.values(parsedData.questionbank).flat().length;
+            status.textContent = `Used: ${usedQuestionIds.size} / ${totalCount}`;
+            resetBtn.style.display = usedQuestionIds.size > 0 ? 'inline-block' : 'none';
+        }
+
+        function pickRandomQuestion(letter) {
+            const pool = parsedData.questionbank[letter] || [];
+            const unused = pool.filter(q => !usedQuestionIds.has(q.id));
+
+            if (unused.length === 0) return null;
+
+            const randomIndex = Math.floor(Math.random() * unused.length);
+            return unused[randomIndex];
+        }
+
+        function nextQuestion() {
+            if (!activeLetter) return;
+
+            const next = pickRandomQuestion(activeLetter);
+            if (next) {
+                selectedQuestions[activeLetter] = next;
+                usedQuestionIds.add(next.id);
+            } else {
+                selectedQuestions[activeLetter] = {
+                    question: "N/A - out of questions",
+                    answer: "N/A - out of questions",
+                    trivia: ""
+                };
+            }
+            showQuestionsForLetter(activeLetter);
+        }
+
+        function resetUsedQuestions() {
+            if (confirm("Reset all 'used' flags and clear currently selected questions?")) {
+                usedQuestionIds = new Set();
+                selectedQuestions = {};
+                if (activeLetter) {
+                    showQuestionsForLetter(activeLetter);
+                } else {
+                    document.getElementById('questions-status').textContent = '';
+                    document.getElementById('resetBtn').style.display = 'none';
+                }
+            }
         }
     </script>
 </body>
