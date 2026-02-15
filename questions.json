@@ -1,0 +1,34 @@
+{
+    "language": "English",
+    "letters": "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,Y",
+    "questions": [
+        {
+            "id": "a_01",
+            "letter": "A",
+            "question": "What 'A' is an animal with a long nose that famously eats ants?",
+            "answer": "Anteater",
+            "trivia": "Something interesting"
+        },
+        {
+            "id": "a_02",
+            "letter": "A",
+            "question": "What 'A' is an animal with a long nose that famously eats ant  s?",
+            "answer": "Anteater",
+            "trivia": "Something interesting"
+        },
+        {
+            "id": "b_01",
+            "letter": "B",
+            "question": "What 'B' was the the type of car in the movie The love bug",
+            "answer": "Beetle",
+            "trivia": "Something interesting"
+        },
+        {
+            "id": "b_02",
+            "letter": "B",
+            "question": "What 'B' is both a small fuzzy buzzy insect and a robot in the 'Transformers' franchise?",
+            "answer": "Bumblebee",
+            "trivia": "Something interesting"
+        }
+    ]
+}
