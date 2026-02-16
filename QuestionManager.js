@@ -153,4 +153,19 @@ export class QuestionManager {
     hasQuestions() {
         return Object.keys(this.parsedData.questionbank).length > 0;
     }
+
+    getTotalQuestionCount() {
+        return Object.values(this.parsedData.questionbank).reduce((acc, current) => acc + current.length, 0);
+    }
+
+    getCountsForLetter(letter) {
+        const total = this.parsedData.questionbank[letter] ? this.parsedData.questionbank[letter].length : 0;
+        const used = [...this.usedQuestionIds].filter(id => {
+            return this.parsedData.questionbank[letter] && this.parsedData.questionbank[letter].some(q => q.id === id);
+        }).length;
+        return {
+            total: total,
+            unused: total - used
+        };
+    }
 }

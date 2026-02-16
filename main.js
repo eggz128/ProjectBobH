@@ -9,8 +9,8 @@ function init() {
     game.init();
 
     // Wire up question selection callback
-    game.onQuestionSelected = (questionData) => {
-        questionDisplay.showQuestion(questionData);
+    game.onQuestionSelected = (questionData, counts) => {
+        questionDisplay.showQuestion(questionData, counts);
     };
 }
 
@@ -82,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const reader = new FileReader()
             reader.onload = (event) => {
                 game.loadQuestions(event.target.result);
+                questionDisplay.updateBankTotal(game.questionManager.getTotalQuestionCount());
             };
             reader.readAsText(file);
             //Hide the questions panel on initial csv load to avoid spoiling questions
@@ -102,8 +103,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Delegate click for dynamically added buttons (like "Next Question")
     document.body.addEventListener('click', (e) => {
         if (e.target && e.target.id === 'next-question-btn') {
-            const nextQ = game.nextQuestionForActive();
-            questionDisplay.showQuestion(nextQ);
+            const result = game.nextQuestionForActive();
+            if (result) {
+                questionDisplay.showQuestion(result.question, result.counts);
+            }
         }
     });
 });

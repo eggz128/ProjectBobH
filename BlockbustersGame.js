@@ -78,7 +78,8 @@ export class BlockbustersGame {
         if (this.questionManager.hasQuestions() && this.onQuestionSelected) {
             const letter = cell.innerText;
             const question = this.questionManager.getQuestionForLetter(letter);
-            this.onQuestionSelected(question);
+            const counts = this.questionManager.getCountsForLetter(letter);
+            this.onQuestionSelected(question, counts);
         }
     }
 
@@ -219,12 +220,16 @@ export class BlockbustersGame {
     getCurrentQuestion() {
         if (!this.activeCell) return null;
         const letter = this.activeCell.innerText;
-        return this.questionManager.getQuestionForLetter(letter);
+        const question = this.questionManager.getQuestionForLetter(letter);
+        const counts = this.questionManager.getCountsForLetter(letter);
+        return { question, counts };
     }
 
     nextQuestionForActive() {
         if (!this.activeCell) return null;
         const letter = this.activeCell.innerText;
-        return this.questionManager.nextQuestion(letter);
+        const question = this.questionManager.nextQuestion(letter);
+        const counts = this.questionManager.getCountsForLetter(letter);
+        return { question, counts };
     }
 }
