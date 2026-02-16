@@ -3,7 +3,7 @@
 @import url('https://fonts.cdnfonts.com/css/dseg14-classic');
 /* Scoreboard Font - fixed width */
 
-
+/* Game Board */
 :root {
     --hex-w: 150px;
     --hex-h: 100px
@@ -124,6 +124,8 @@ span {
     }
 }
 
+/* Controls */
+
 #controls {
     position: absolute;
     top: 20px;
@@ -193,7 +195,7 @@ span {
     background: rgba(255, 255, 255, 0.1);
 }
 
-#controls>button {
+#controls button:not(#scoreboard button) {
     background: #333;
     border: 1px solid #555;
     color: white;
@@ -204,7 +206,7 @@ span {
     font-weight: 600;
 }
 
-#controls>button:hover {
+#controls button:not(#scoreboard button):hover {
     background: #444;
     border-color: #777;
     transform: translateY(-1px);
@@ -221,4 +223,74 @@ span {
     color: #aaa;
     margin: 0;
     text-align: center;
+}
+
+/* Quizmaster Controls */
+.quizmaster-controls {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+}
+
+.toggle-label {
+    display: block;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+#question-display-panel {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 600px;
+    background: #2a2a2a;
+    color: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    border-left: 5px solid #ff6b6b;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.question-header {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #f5f5f5;
+}
+
+.answer-text {
+    color: #ccc;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.trivia-text {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #88c0d0;
+    border-top: 1px solid #444;
+    padding-top: 0.5rem;
+}
+
+.question-controls {
+    margin-top: 1rem;
+    text-align: right;
+}
+
+.btn-secondary {
+    background-color: #444;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background-color: #555;
 }
