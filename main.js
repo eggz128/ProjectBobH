@@ -1,10 +1,17 @@
 import { BlockbustersGame } from './BlockbustersGame.js';
 import { ALPHABETS, CELL_STATE } from './constants.js';
+import { QuestionDisplay } from './QuestionDisplay.js';
 
 const game = new BlockbustersGame();
+const questionDisplay = new QuestionDisplay('question-display-panel');
 
 function init() {
     game.init();
+
+    // Wire up question selection callback
+    game.onQuestionSelected = (questionData) => {
+        questionDisplay.showQuestion(questionData);
+    };
 }
 
 function initEn() {
@@ -63,5 +70,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const blueScoreBtn = document.getElementById('blue-score-btn');
     if (blueScoreBtn) blueScoreBtn.addEventListener('click', () => {
         game.captureActiveCell(CELL_STATE.BLUE);
+    });
+
+    // Quizmaster Controls
+    const csvUpload = document.getElementById('csv-upload');
+    if (csvUpload) {
+        csvUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader()
+            reader.onload = (event) => {
+                game.loadQuestions(event.target.result);
+            };
+            reader.readAsText(file);
+            //Hide the questions panel on initial csv load to avoid spoiling questions
+            questionDisplay.hide();
+        });
+    }
+
+    const quizmasterToggle = document.getElementById('quizmaster-toggle');
+    if (quizmasterToggle) {
+        quizmasterToggle.addEventListener('change', (e) => {
+            questionDisplay.setQuizmasterMode(e.target.checked);
+        });
+    }
+
+    const resetBtn = document.getElementById('reset');
+    if (resetBtn) resetBtn.addEventListener('click', init);
+
+    // Delegate click for dynamically added buttons (like "Next Question")
+    document.body.addEventListener('click', (e) => {
+        if (e.target && e.target.id === 'next-question-btn') {
+            const nextQ = game.nextQuestionForActive();
+            questionDisplay.showQuestion(nextQ);
+        }
     });
 });

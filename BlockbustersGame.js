@@ -1,5 +1,6 @@
 import { CELL_STATE, ALPHABETS } from './constants.js';
 import { BoardState } from './BoardState.js';
+import { QuestionManager } from './QuestionManager.js';
 
 export class BlockbustersGame {
     constructor() {
@@ -7,11 +8,14 @@ export class BlockbustersGame {
         this.cols = 5;
         this.state = new BoardState(this.rows, this.cols);
         this.activeCell = null;
-        this.alphabet = ALPHABETS.CY;
+        this.alphabet = ALPHABETS.CY; //Default board dispplay when game is first loaded
         this.randomInterval = null;
         this.isResetting = false;
         this.blueScore = 0;
         this.whiteScore = 0;
+
+        this.questionManager = new QuestionManager();
+        this.onQuestionSelected = null; // Callback for UI
 
         window.addEventListener("keydown", (e) => this.handleKeyPress(e));
     }
@@ -66,6 +70,16 @@ export class BlockbustersGame {
         cell.classList.add("active");
         cell.setAttribute("tabindex", "-1");
         cell.focus();
+
+        this.selectQuestion(cell);
+    }
+
+    selectQuestion(cell) {
+        if (this.questionManager.hasQuestions() && this.onQuestionSelected) {
+            const letter = cell.innerText;
+            const question = this.questionManager.getQuestionForLetter(letter);
+            this.onQuestionSelected(question);
+        }
     }
 
     handleKeyPress(e) {
@@ -160,6 +174,8 @@ export class BlockbustersGame {
     assignRandomStart() {
         const cells = document.querySelectorAll("td");
         if (cells.length > 0) this.selectCell(cells[Math.floor(Math.random() * cells.length)]);
+        //call selectQuestion with current active cell
+        this.selectQuestion(this.activeCell);
     }
 
     startShowtime() {
@@ -185,5 +201,30 @@ export class BlockbustersGame {
             this.randomInterval = null;
             this.reset();
         }
+    }
+
+    loadQuestions(csvText) {
+        try {
+            const letters = this.questionManager.loadFromCSV(csvText);
+            this.alphabet = letters; // Override alphabet
+            console.log("Loaded questions. New alphabet:", this.alphabet);
+            this.reset();
+            this.assignRandomStart();
+        } catch (e) {
+            console.error("Failed to load questions:", e);
+            alert("Failed to load CSV: " + e.message);
+        }
+    }
+
+    getCurrentQuestion() {
+        if (!this.activeCell) return null;
+        const letter = this.activeCell.innerText;
+        return this.questionManager.getQuestionForLetter(letter);
+    }
+
+    nextQuestionForActive() {
+        if (!this.activeCell) return null;
+        const letter = this.activeCell.innerText;
+        return this.questionManager.nextQuestion(letter);
     }
 }
