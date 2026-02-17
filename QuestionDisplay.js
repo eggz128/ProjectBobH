@@ -19,23 +19,41 @@ export class QuestionDisplay {
             return;
         }
 
-        const triviaHtml = questionData.trivia ?
-            `<div class="trivia-text">Trivia: ${questionData.trivia}</div>` : '';
-
-        const countsHtml = counts ?
-            `<div class="question-counts">Questions for this letter: ${counts.total} (${counts.unused} available)</div>` : '';
-
-        this.container.innerHTML = `
-            <div class="question-card">
-                <div class="question-header">Q: ${questionData.question}</div>
-                <div class="answer-text">A: ${questionData.answer}</div>
-                ${triviaHtml}
-                ${countsHtml}
-            </div>
-            <div class="question-controls">
-                <button id="next-question-btn" class="btn btn-secondary">Next Question</button>
-            </div>
-        `;
+        // Clear existing content before rendering a new question
+        this.container.innerHTML = '';
+        // Create question card
+        const questionCard = document.createElement('div');
+        questionCard.className = 'question-card';
+        const questionHeader = document.createElement('div');
+        questionHeader.className = 'question-header';
+        questionHeader.textContent = 'Q: ' + (questionData.question || '');
+        questionCard.appendChild(questionHeader);
+        const answerText = document.createElement('div');
+        answerText.className = 'answer-text';
+        answerText.textContent = 'A: ' + (questionData.answer || '');
+        questionCard.appendChild(answerText);
+        if (questionData.trivia) {
+            const triviaDiv = document.createElement('div');
+            triviaDiv.className = 'trivia-text';
+            triviaDiv.textContent = 'Trivia: ' + questionData.trivia;
+            questionCard.appendChild(triviaDiv);
+        }
+        if (counts) {
+            const countsDiv = document.createElement('div');
+            countsDiv.className = 'question-counts';
+            countsDiv.textContent = `Questions for this letter: ${counts.total} (${counts.unused} available)`;
+            questionCard.appendChild(countsDiv);
+        }
+        this.container.appendChild(questionCard);
+        // Create controls
+        const controlsDiv = document.createElement('div');
+        controlsDiv.className = 'question-controls';
+        const nextButton = document.createElement('button');
+        nextButton.id = 'next-question-btn';
+        nextButton.className = 'btn btn-secondary';
+        nextButton.textContent = 'Next Question';
+        controlsDiv.appendChild(nextButton);
+        this.container.appendChild(controlsDiv);
     }
 
     updateBankTotal(count) {
