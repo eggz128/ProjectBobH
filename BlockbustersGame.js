@@ -54,6 +54,7 @@ export class BlockbustersGame {
         const shuffled = [...this.alphabet].sort(() => Math.random() - 0.5);
         const spans = document.querySelectorAll("td > span");
         spans.forEach((span, i) => { if (shuffled[i]) span.innerText = shuffled[i]; });
+        this.questionManager.resetCurrentSelection();
         this.isResetting = false;
     }
 
@@ -108,7 +109,12 @@ export class BlockbustersGame {
         this.updateScoreDisplay();
 
         const cell = this.activeCell;
+        const letter = cell.innerText;
         this.state.setCell(row, col, state);
+
+        if (state === CELL_STATE.BLUE || state === CELL_STATE.WHITE) {
+            this.questionManager.markAsUsed(letter);
+        }
 
         cell.classList.remove("bl", "wh", "yl", "active");
         if (state === CELL_STATE.BLUE) cell.classList.add("bl");
@@ -229,5 +235,9 @@ export class BlockbustersGame {
         const question = this.questionManager.nextQuestion(letter);
         const counts = this.questionManager.getCountsForLetter(letter);
         return { question, counts };
+    }
+
+    resetAllQuestions() {
+        this.questionManager.resetUsed();
     }
 }

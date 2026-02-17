@@ -40,6 +40,10 @@ function resetWhiteScore() {
     game.resetScore('white');
 }
 
+function resetAllQuestions() {
+    game.resetAllQuestions();
+}
+
 // Bind event listeners to DOM elements
 document.addEventListener('DOMContentLoaded', () => {
     init();
@@ -97,8 +101,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const resetBtn = document.getElementById('reset');
-    if (resetBtn) resetBtn.addEventListener('click', init);
+    const resetBoardBtn = document.getElementById('reset-board');
+    if (resetBoardBtn) resetBoardBtn.addEventListener('click', init);
+
+    const resetQuestionsBtn = document.getElementById('reset-questions');
+    if (resetQuestionsBtn) resetQuestionsBtn.addEventListener('click', resetAllQuestions);
 
     // Delegate click for dynamically added buttons (like "Next Question")
     document.body.addEventListener('click', (e) => {

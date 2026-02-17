@@ -117,7 +117,7 @@ export class QuestionManager {
         const question = this.pickRandomQuestion(letter);
         if (question) {
             this.selectedQuestions[letter] = question;
-            this.usedQuestionIds.add(question.id);
+            // No longer marking as used here automatically
             return question;
         }
 
@@ -139,10 +139,21 @@ export class QuestionManager {
         const question = this.pickRandomQuestion(letter);
         if (question) {
             this.selectedQuestions[letter] = question;
-            this.usedQuestionIds.add(question.id);
+            // No longer marking as used here automatically
             return question;
         }
         return null;
+    }
+
+    markAsUsed(letter) {
+        const question = this.selectedQuestions[letter];
+        if (question) {
+            this.usedQuestionIds.add(question.id);
+        }
+    }
+
+    resetCurrentSelection() {
+        this.selectedQuestions = {};
     }
 
     resetUsed() {
