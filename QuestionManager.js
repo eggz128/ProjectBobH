@@ -42,8 +42,8 @@ export class QuestionManager {
             const id = row[2];
             const letter = row[3];
             const question = row[4];
-            const answer = row[5];
-            const trivia = row[6] || "";
+            const answer = row.length > 5 ? row[5] : ""; // Answer is optional
+            const trivia = row.length > 6 ? row[6] : ""; // Trivia is optional
 
             if (id && letter && question) { // Skip rows without ID, letter, and question. Answer and Trivia are optional.
                 if (!this.parsedData.questionbank[letter]) {

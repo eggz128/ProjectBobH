@@ -8,7 +8,7 @@ export class BlockbustersGame {
         this.cols = 5;
         this.state = new BoardState(this.rows, this.cols);
         this.activeCell = null;
-        this.alphabet = ALPHABETS.CY; //Default board dispplay when game is first loaded
+        this.alphabet = ALPHABETS.CY; //Default board display when game is first loaded
         this.randomInterval = null;
         this.isResetting = false;
         this.blueScore = 0;
@@ -175,8 +175,6 @@ export class BlockbustersGame {
     assignRandomStart() {
         const cells = document.querySelectorAll("td");
         if (cells.length > 0) this.selectCell(cells[Math.floor(Math.random() * cells.length)]);
-        //call selectQuestion with current active cell
-        this.selectQuestion(this.activeCell);
     }
 
     startShowtime() {

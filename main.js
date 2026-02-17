@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const file = e.target.files[0];
             if (!file) return;
 
-            const reader = new FileReader()
+            const reader = new FileReader();
             reader.onload = (event) => {
                 game.loadQuestions(event.target.result);
                 questionDisplay.updateBankTotal(game.questionManager.getTotalQuestionCount());

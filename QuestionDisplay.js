@@ -14,10 +14,6 @@ export class QuestionDisplay {
     }
 
     showQuestion(questionData, counts) {
-        //Initial CSV load now hides the question panel to avoid spoiling questions
-        //This line prevents the first question being populated
-        //if (!this.isVisible || !this.container) return;
-
         if (!questionData) {
             this.container.innerHTML = '<div class="no-question">No questions available</div>';
             return;
