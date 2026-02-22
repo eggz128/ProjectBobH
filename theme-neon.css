@@ -1,0 +1,354 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
+/* Game Board */
+:root {
+    --hex-w: 150px;
+    --hex-h: 100px;
+    --neon-pink: #ff00ff;
+    --neon-cyan: #00ffff;
+    --neon-yellow: #ffff00;
+    --dark-bg: #09090b;
+    --grid-color: rgba(0, 255, 255, 0.1);
+}
+
+body {
+    background: var(--dark-bg);
+    background-image:
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 40px 40px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+table {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 40px;
+    text-transform: capitalize;
+    filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.2));
+}
+
+td,
+th {
+    background-color: var(--neon-pink);
+    width: var(--hex-w);
+    height: var(--hex-h);
+    position: relative;
+    text-align: center;
+    clip-path: polygon(20% 0%, 80% 0%, 100% 50%, 80% 100%, 20% 100%, 0% 50%);
+    font-weight: 700;
+}
+
+tr * {
+    --base-height-offset: calc(var(--hex-h) / 2);
+    top: calc(var(--base-height-offset) + 2px);
+}
+
+tr :nth-child(2n) {
+    top: 0px;
+    left: calc(var(--hex-w) / 5 * -1);
+}
+
+tr :nth-child(3) {
+    left: calc(var(--hex-w) / 5 * 2 * -1);
+}
+
+tr :nth-child(4) {
+    left: calc(var(--hex-w) / 5 * 3 * -1);
+}
+
+tr :nth-child(5) {
+    left: calc(var(--hex-w) / 5 * 4 * -1);
+}
+
+tr :nth-child(6) {
+    left: calc(var(--hex-w) / 5 * 5 * -1);
+}
+
+tr :nth-child(7) {
+    left: calc(var(--hex-w) / 5 * 6 * -1);
+}
+
+table span {
+    display: block;
+    position: absolute;
+    background-color: #111;
+    color: var(--neon-cyan);
+    padding: 1% 0;
+    clip-path: polygon(20% 0%, 80% 0%, 100% 50%, 80% 100%, 20% 100%, 0% 50%);
+    inset: 6px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 0 0 5px var(--neon-cyan);
+}
+
+.bl,
+.bl span {
+    background-color: var(--neon-cyan);
+    color: transparent;
+    text-shadow: none;
+    box-shadow: 0 0 15px var(--neon-cyan);
+}
+
+.wh,
+.wh span {
+    background-color: #fff;
+    color: transparent;
+    text-shadow: none;
+    box-shadow: 0 0 15px #fff;
+}
+
+.yl,
+.yl span {
+    background-color: var(--neon-yellow);
+    color: transparent;
+    text-shadow: none;
+    box-shadow: 0 0 15px var(--neon-yellow);
+}
+
+.bk,
+.bk span {
+    background-color: #000;
+    color: transparent;
+    text-shadow: none;
+}
+
+.active {
+    animation: 0.8s ease-in-out 0s infinite alternate neon-blink;
+}
+
+@keyframes neon-blink {
+    from {
+        filter: brightness(1) drop-shadow(0 0 10px var(--neon-cyan));
+    }
+
+    to {
+        filter: brightness(1.5) drop-shadow(0 0 25px var(--neon-cyan));
+    }
+}
+
+/* Goldrun styles */
+table.goldrun-active span {
+    background-color: #111;
+    color: #39ff14;
+    text-shadow: 0 0 5px #39ff14;
+}
+
+table.goldrun-active td {
+    background-color: #39ff14;
+}
+
+table.goldrun-active .bk,
+table.goldrun-active .bk span,
+table.goldrun-active th.wh,
+table.goldrun-active th.wh span {
+    background-color: #000;
+    box-shadow: none;
+}
+
+table.goldrun-active .bl,
+table.goldrun-active .bl span,
+table.goldrun-active .wh,
+table.goldrun-active .wh span {
+    background-color: #ffaa00;
+    box-shadow: 0 0 15px #ffaa00;
+}
+
+/* Goldrun timer */
+#goldrun-timer {
+    display: none;
+    position: relative;
+    top: 20px;
+    left: 20px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 80px;
+    color: var(--neon-pink);
+    background: rgba(17, 17, 17, 0.8);
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: 2px solid var(--neon-pink);
+    box-shadow: 0 0 15px var(--neon-pink), inset 0 0 10px var(--neon-pink);
+    text-shadow: 0 0 10px var(--neon-pink);
+}
+
+#goldrun-timer.goldrun-active {
+    display: inline-block;
+}
+
+/* Controls */
+#controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 280px;
+    color: var(--neon-cyan);
+    background: rgba(10, 10, 15, 0.85);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--neon-cyan);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    font-family: 'Orbitron', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#scoreboard {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.score-item {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
+    cursor: pointer;
+    text-shadow: 0 0 5px currentColor;
+}
+
+.score-item span {
+    display: block;
+    margin-top: 5px;
+    background-color: transparent;
+    padding: 0;
+    color: inherit;
+    font-size: 32px;
+}
+
+.score-item.bl {
+    border: 2px solid var(--neon-cyan);
+    color: var(--neon-cyan);
+    background: rgba(0, 255, 255, 0.1);
+    box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+.score-item.wh {
+    border: 2px solid #fff;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+#controls button:not(#scoreboard button),
+.custom-theme-helper {
+    background: rgba(255, 0, 255, 0.1);
+    border: 1px solid var(--neon-pink);
+    color: var(--neon-pink);
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Orbitron', sans-serif;
+    text-shadow: 0 0 5px var(--neon-pink);
+    box-shadow: inset 0 0 5px rgba(255, 0, 255, 0.3);
+}
+
+#controls button:not(#scoreboard button):hover {
+    background: rgba(255, 0, 255, 0.3);
+    box-shadow: 0 0 10px var(--neon-pink);
+}
+
+#controls hr {
+    border: none;
+    border-top: 1px dashed var(--neon-cyan);
+    margin: 5px 0;
+    opacity: 0.5;
+}
+
+#controls p {
+    font-size: 12px;
+    color: #888;
+    margin: 0;
+    text-align: center;
+}
+
+/* Quizmaster Controls */
+.quizmaster-controls {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(0, 255, 255, 0.05);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.toggle-label {
+    display: block;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+    font-size: 14px;
+}
+
+#question-display-panel {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 600px;
+    background: rgba(10, 10, 15, 0.95);
+    color: var(--neon-cyan);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 2px solid var(--neon-cyan);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3), inset 0 0 15px rgba(0, 255, 255, 0.1);
+    z-index: 1000;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.question-header {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--neon-pink);
+    text-shadow: 0 0 5px var(--neon-pink);
+}
+
+.answer-text {
+    color: #fff;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.trivia-text {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--neon-yellow);
+    border-top: 1px dashed var(--neon-cyan);
+    padding-top: 0.5rem;
+}
+
+.question-controls {
+    margin-top: 1rem;
+    text-align: right;
+}
+
+.btn-secondary {
+    background-color: rgba(255, 0, 255, 0.1);
+    color: var(--neon-pink);
+    padding: 8px 16px;
+    border: 1px solid var(--neon-pink);
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    text-shadow: 0 0 5px var(--neon-pink);
+}
+
+.btn-secondary:hover {
+    background-color: rgba(255, 0, 255, 0.3);
+    box-shadow: 0 0 10px var(--neon-pink);
+}
+
+select {
+    background: #111;
+    color: var(--neon-cyan);
+    border: 1px solid var(--neon-cyan);
+    padding: 5px;
+    font-family: 'Orbitron', sans-serif;
+}

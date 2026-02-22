@@ -179,4 +179,38 @@ document.addEventListener('DOMContentLoaded', () => {
             currentGame.handleKeyPress(e);
         }
     });
+
+    // Theme switching logic
+    const themeStylesheet = document.getElementById('theme-stylesheet');
+    const themeSelector = document.getElementById('theme-selector');
+    const customThemeUpload = document.getElementById('custom-theme-upload');
+    let customThemeUrl = null;
+
+    if (themeSelector) {
+        themeSelector.addEventListener('change', (e) => {
+            const val = e.target.value;
+            if (val === 'custom') {
+                customThemeUpload.style.display = 'block';
+                // Do not change href until a file is loaded
+            } else {
+                customThemeUpload.style.display = 'none';
+                themeStylesheet.href = val;
+            }
+        });
+    }
+
+    if (customThemeUpload) {
+        customThemeUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Revoke old URL to avoid memory leaks
+            if (customThemeUrl) {
+                URL.revokeObjectURL(customThemeUrl);
+            }
+
+            customThemeUrl = URL.createObjectURL(file);
+            themeStylesheet.href = customThemeUrl;
+        });
+    }
 });

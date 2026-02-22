@@ -6,7 +6,7 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Project Bob H</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <link id="theme-stylesheet" rel='stylesheet' type='text/css' media='screen' href='main.css'>
     <link href="https://fonts.cdnfonts.com/css/seven-segment" rel="stylesheet">
     <script type="module" src='main.js'></script>
     <style>
@@ -97,6 +97,18 @@
         <button id="reset-cy">Reset Cy</button>
         <button id="random-board">Random</button>
         <button id="stop-random">Stop Random</button>
+        <hr>
+        <div style="margin-bottom: 10px;">
+            <label for="theme-selector" style="font-size: 14px; margin-right: 5px;">Theme:</label>
+            <select id="theme-selector" style="padding: 4px; border-radius: 4px;">
+                <option value="main.css">Classic (80s)</option>
+                <option value="theme-modern.css">Modern</option>
+                <option value="theme-neon.css">Neon</option>
+                <option value="custom">Custom...</option>
+            </select>
+            <input type="file" id="custom-theme-upload" accept=".css"
+                style="display:none; margin-top:8px; width: 100%; font-size: 12px;">
+        </div>
         <hr>
         <button id="start-goldrun">Start Goldrun</button>
         <button id="exit-goldrun" style="display:none;">Exit Goldrun</button>
