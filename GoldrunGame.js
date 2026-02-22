@@ -41,7 +41,12 @@ export class GoldrunGame extends BlockbustersGame {
             cell.removeAttribute("tabindex");
         });
 
-        const shuffled = [...this.alphabet].sort(() => Math.random() - 0.5);
+        // Shuffle alphabet using Fisher-Yates algorithm for better randomness
+        const shuffled = [...this.alphabet];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
         const spans = document.querySelectorAll("td > span");
         spans.forEach((span, i) => { if (shuffled[i]) span.innerText = shuffled[i]; });
         this.questionManager.resetCurrentSelection();
