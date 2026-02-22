@@ -146,7 +146,7 @@ table.goldrun-active th.wh span {
     background-color: black;
 }
 
-/*Wh or Bl captured cells turn orange*/
+/* Wh or Bl captured cells turn orange */
 table.goldrun-active .bl,
 table.goldrun-active .bl span,
 table.goldrun-active .wh,
