@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const reader = new FileReader();
             reader.onload = (event) => {
                 currentGame.loadQuestions(event.target.result);
-                // Also load to the other instance so they share the same base if not sharing reference
+                // Also assign to the other instance so both game modes share the same questionManager (synchronized question state)
                 const otherGame = currentGame === baseGame ? goldrunGame : baseGame;
                 otherGame.questionManager = currentGame.questionManager;
                 otherGame.alphabet = currentGame.alphabet;
