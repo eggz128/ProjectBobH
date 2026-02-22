@@ -51,38 +51,38 @@ function resetAllQuestions() {
     currentGame.resetAllQuestions();
 }
 
-function startGoldrun() {
+function switchGame(toGame, showButtonId, hideButtonId) {
     const qManager = currentGame.questionManager;
     const alphabet = currentGame.alphabet;
     const blueScore = currentGame.blueScore;
     const whiteScore = currentGame.whiteScore;
+
     if (currentGame.cleanup) currentGame.cleanup();
-    currentGame = goldrunGame;
+
+    currentGame = toGame;
     currentGame.questionManager = qManager;
     currentGame.alphabet = alphabet;
     currentGame.blueScore = blueScore;
     currentGame.whiteScore = whiteScore;
     currentGame.init();
 
-    document.getElementById('start-goldrun').style.display = 'none';
-    document.getElementById('exit-goldrun').style.display = 'inline-block';
+    const showButton = document.getElementById(showButtonId);
+    if (showButton) {
+        showButton.style.display = 'inline-block';
+    }
+
+    const hideButton = document.getElementById(hideButtonId);
+    if (hideButton) {
+        hideButton.style.display = 'none';
+    }
+}
+
+function startGoldrun() {
+    switchGame(goldrunGame, 'exit-goldrun', 'start-goldrun');
 }
 
 function exitGoldrun() {
-    const qManager = currentGame.questionManager;
-    const alphabet = currentGame.alphabet;
-    const blueScore = currentGame.blueScore;
-    const whiteScore = currentGame.whiteScore;
-    if (currentGame.cleanup) currentGame.cleanup();
-    currentGame = baseGame;
-    currentGame.questionManager = qManager;
-    currentGame.alphabet = alphabet;
-    currentGame.blueScore = blueScore;
-    currentGame.whiteScore = whiteScore;
-    currentGame.init();
-
-    document.getElementById('exit-goldrun').style.display = 'none';
-    document.getElementById('start-goldrun').style.display = 'inline-block';
+    switchGame(baseGame, 'start-goldrun', 'exit-goldrun');
 }
 
 // Bind event listeners to DOM elements
