@@ -140,7 +140,7 @@ table.goldrun-active td {
 
 table.goldrun-active .bk,
 table.goldrun-active .bk span,
-/*Change White (top/bottom) to black*/
+/* Change White (top/bottom) to black */
 table.goldrun-active th.wh,
 table.goldrun-active th.wh span {
     background-color: black;
