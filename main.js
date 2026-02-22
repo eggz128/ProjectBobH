@@ -17,7 +17,7 @@ function init() {
         questionDisplay.showQuestion(questionData, counts);
     };
     goldrunGame.onQuestionSelected = (questionData, counts) => {
-        questionDisplay.showQuestion(questionData, counts);
+        questionDisplay.showQuestion(questionData, counts, true);
     };
 }
 

@@ -13,7 +13,7 @@ export class QuestionDisplay {
         }
     }
 
-    showQuestion(questionData, counts) {
+    showQuestion(questionData, counts, showPass = false) {
         if (!questionData) {
             this.container.innerHTML = '<div class="no-question">No questions available</div>';
             return;
@@ -54,12 +54,14 @@ export class QuestionDisplay {
         nextButton.textContent = 'Next Question';
         controlsDiv.appendChild(nextButton);
 
-        const passButton = document.createElement('button');
-        passButton.id = 'pass-question-btn';
-        passButton.className = 'btn btn-secondary';
-        passButton.textContent = 'Pass (P)';
-        passButton.style.marginLeft = '10px';
-        controlsDiv.appendChild(passButton);
+        if (showPass) {
+            const passButton = document.createElement('button');
+            passButton.id = 'pass-question-btn';
+            passButton.className = 'btn btn-secondary';
+            passButton.textContent = 'Pass (P)';
+            passButton.style.marginLeft = '10px';
+            controlsDiv.appendChild(passButton);
+        }
 
         this.container.appendChild(controlsDiv);
     }
