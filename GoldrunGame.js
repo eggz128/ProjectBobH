@@ -124,7 +124,7 @@ export class GoldrunGame extends BlockbustersGame {
         // Flash all captured cells (in goldrun they're orange via CSS when bl or wh)
         this.flashTeam('bl', true, false);
         this.flashTeam('wh', true, false);
-        //Don't run any sort of random animation at the end of the game. Allows host to go back and read missed questions.
+        // Don't run any sort of random animation at the end of the game. Allows host to go back and read missed questions.
     }
 
     startTimer() {
