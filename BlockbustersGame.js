@@ -16,8 +16,6 @@ export class BlockbustersGame {
 
         this.questionManager = new QuestionManager();
         this.onQuestionSelected = null; // Callback for UI
-
-        window.addEventListener("keydown", (e) => this.handleKeyPress(e));
     }
 
     init() {
@@ -47,7 +45,7 @@ export class BlockbustersGame {
         this.isResetting = true;
 
         document.querySelectorAll("td").forEach(cell => {
-            cell.classList.remove("active", "bl", "wh", "yl");
+            cell.classList.remove("active", "bl", "wh", "yl", "bk");
             cell.removeAttribute("tabindex");
         });
 

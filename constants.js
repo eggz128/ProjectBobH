@@ -1,12 +1,9 @@
-/**
- * Blockbusters constants
- */
-
 export const CELL_STATE = {
     EMPTY: 0,
     BLUE: 1,
     WHITE: 2,
-    YELLOW: 3
+    YELLOW: 3,
+    BLACK: 4
 };
 
 export const ALPHABETS = {

@@ -2,6 +2,8 @@
 /* Game Board Font */
 @import url('https://fonts.cdnfonts.com/css/dseg14-classic');
 /* Scoreboard Font - fixed width */
+@import url('https://fonts.cdnfonts.com/css/lcd-display-grid');
+/* Goldrun Timer Font */
 
 /* Game Board */
 :root {
@@ -69,7 +71,7 @@ tr :nth-child(7) {
 
 
 
-span {
+table span {
     display: block;
     position: absolute;
     background-color: yellow;
@@ -122,6 +124,55 @@ span {
     to {
         opacity: 1;
     }
+}
+
+
+/* Goldrun styles */
+
+table.goldrun-active span {
+    background-color: rgb(65, 180, 58);
+}
+
+table.goldrun-active td {
+    background-color: rgb(0, 128, 7);
+}
+
+
+table.goldrun-active .bk,
+table.goldrun-active .bk span,
+/* Change White (top/bottom) to black */
+table.goldrun-active th.wh,
+table.goldrun-active th.wh span {
+    background-color: black;
+}
+
+/* Wh or Bl captured cells turn orange */
+table.goldrun-active .bl,
+table.goldrun-active .bl span,
+table.goldrun-active .wh,
+table.goldrun-active .wh span {
+    background-color: orange;
+}
+
+/* Goldrun timer */
+#goldrun-timer {
+    display: none;
+    position: relative;
+    width: 4ch;
+    top: 20px;
+    left: 20px;
+    font-family: 'LCD Display Grid', sans-serif;
+    font-size: 150px;
+    color: deepskyblue;
+    background: #000;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 2px solid deepskyblue;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+}
+
+#goldrun-timer.goldrun-active {
+    display: block;
 }
 
 /* Controls */
