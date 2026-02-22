@@ -1,47 +1,88 @@
 import { BlockbustersGame } from './BlockbustersGame.js';
+import { GoldrunGame } from './GoldrunGame.js';
 import { ALPHABETS, CELL_STATE } from './constants.js';
 import { QuestionDisplay } from './QuestionDisplay.js';
 
-const game = new BlockbustersGame();
+const baseGame = new BlockbustersGame();
+const goldrunGame = new GoldrunGame();
+let currentGame = baseGame;
+
 const questionDisplay = new QuestionDisplay('question-display-panel');
 
 function init() {
-    game.init();
+    currentGame.init();
 
     // Wire up question selection callback
-    game.onQuestionSelected = (questionData, counts) => {
+    baseGame.onQuestionSelected = (questionData, counts) => {
+        questionDisplay.showQuestion(questionData, counts);
+    };
+    goldrunGame.onQuestionSelected = (questionData, counts) => {
         questionDisplay.showQuestion(questionData, counts);
     };
 }
 
 function initEn() {
-    game.alphabet = ALPHABETS.EN;
-    game.init();
+    currentGame.alphabet = ALPHABETS.EN;
+    currentGame.init();
 }
 
 function initCy() {
-    game.alphabet = ALPHABETS.CY;
-    game.init();
+    currentGame.alphabet = ALPHABETS.CY;
+    currentGame.init();
 }
 
 function randomBoard() {
-    game.startShowtime();
+    currentGame.startShowtime();
 }
 
 function stopRandom() {
-    game.stopRandom();
+    currentGame.stopRandom();
 }
 
 function resetBlueScore() {
-    game.resetScore('blue');
+    currentGame.resetScore('blue');
 }
 
 function resetWhiteScore() {
-    game.resetScore('white');
+    currentGame.resetScore('white');
 }
 
 function resetAllQuestions() {
-    game.resetAllQuestions();
+    currentGame.resetAllQuestions();
+}
+
+function startGoldrun() {
+    const qManager = currentGame.questionManager;
+    const alphabet = currentGame.alphabet;
+    const blueScore = currentGame.blueScore;
+    const whiteScore = currentGame.whiteScore;
+    if (currentGame.cleanup) currentGame.cleanup();
+    currentGame = goldrunGame;
+    currentGame.questionManager = qManager;
+    currentGame.alphabet = alphabet;
+    currentGame.blueScore = blueScore;
+    currentGame.whiteScore = whiteScore;
+    currentGame.init();
+
+    document.getElementById('start-goldrun').style.display = 'none';
+    document.getElementById('exit-goldrun').style.display = 'inline-block';
+}
+
+function exitGoldrun() {
+    const qManager = currentGame.questionManager;
+    const alphabet = currentGame.alphabet;
+    const blueScore = currentGame.blueScore;
+    const whiteScore = currentGame.whiteScore;
+    if (currentGame.cleanup) currentGame.cleanup();
+    currentGame = baseGame;
+    currentGame.questionManager = qManager;
+    currentGame.alphabet = alphabet;
+    currentGame.blueScore = blueScore;
+    currentGame.whiteScore = whiteScore;
+    currentGame.init();
+
+    document.getElementById('exit-goldrun').style.display = 'none';
+    document.getElementById('start-goldrun').style.display = 'inline-block';
 }
 
 // Bind event listeners to DOM elements
@@ -60,6 +101,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const stopRandomBtn = document.getElementById('stop-random');
     if (stopRandomBtn) stopRandomBtn.addEventListener('click', stopRandom);
 
+    const startGoldrunBtn = document.getElementById('start-goldrun');
+    if (startGoldrunBtn) startGoldrunBtn.addEventListener('click', startGoldrun);
+
+    const exitGoldrunBtn = document.getElementById('exit-goldrun');
+    if (exitGoldrunBtn) exitGoldrunBtn.addEventListener('click', exitGoldrun);
+
     const resetBlueBtn = document.getElementById('reset-blue-score');
     if (resetBlueBtn) resetBlueBtn.addEventListener('click', resetBlueScore);
 
@@ -68,12 +115,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const whiteScoreBtn = document.getElementById('white-score-btn');
     if (whiteScoreBtn) whiteScoreBtn.addEventListener('click', () => {
-        game.captureActiveCell(CELL_STATE.WHITE);
+        currentGame.captureActiveCell(CELL_STATE.WHITE);
     });
 
     const blueScoreBtn = document.getElementById('blue-score-btn');
     if (blueScoreBtn) blueScoreBtn.addEventListener('click', () => {
-        game.captureActiveCell(CELL_STATE.BLUE);
+        currentGame.captureActiveCell(CELL_STATE.BLUE);
     });
 
     // Quizmaster Controls
@@ -85,8 +132,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const reader = new FileReader();
             reader.onload = (event) => {
-                game.loadQuestions(event.target.result);
-                questionDisplay.updateBankTotal(game.questionManager.getTotalQuestionCount());
+                currentGame.loadQuestions(event.target.result);
+                // Also load to the other instance so they share the same base if not sharing reference
+                const otherGame = currentGame === baseGame ? goldrunGame : baseGame;
+                otherGame.questionManager = currentGame.questionManager;
+                otherGame.alphabet = currentGame.alphabet;
+
+                questionDisplay.updateBankTotal(currentGame.questionManager.getTotalQuestionCount());
             };
             reader.readAsText(file);
             //Hide the questions panel on initial csv load to avoid spoiling questions
@@ -110,10 +162,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // Delegate click for dynamically added buttons (like "Next Question")
     document.body.addEventListener('click', (e) => {
         if (e.target && e.target.id === 'next-question-btn') {
-            const result = game.nextQuestionForActive();
+            const result = currentGame.nextQuestionForActive();
             if (result) {
                 questionDisplay.showQuestion(result.question, result.counts);
             }
+        }
+        if (e.target && e.target.id === 'pass-question-btn') {
+            if (currentGame instanceof GoldrunGame) {
+                currentGame.passActiveCell();
+            }
+        }
+    });
+
+    window.addEventListener("keydown", (e) => {
+        if (currentGame) {
+            currentGame.handleKeyPress(e);
         }
     });
 });

@@ -53,6 +53,14 @@ export class QuestionDisplay {
         nextButton.className = 'btn btn-secondary';
         nextButton.textContent = 'Next Question';
         controlsDiv.appendChild(nextButton);
+
+        const passButton = document.createElement('button');
+        passButton.id = 'pass-question-btn';
+        passButton.className = 'btn btn-secondary';
+        passButton.textContent = 'Pass (P)';
+        passButton.style.marginLeft = '10px';
+        controlsDiv.appendChild(passButton);
+
         this.container.appendChild(controlsDiv);
     }
 
