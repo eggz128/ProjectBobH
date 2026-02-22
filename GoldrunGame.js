@@ -12,6 +12,11 @@ export class GoldrunGame extends BlockbustersGame {
 
     init() {
         this.reset();
+        // NOTE: bindClickEvents() in the base class currently assigns handlers via element.onclick,
+        // which overwrites any existing handler. This means repeated calls during game switches
+        // do not accumulate duplicate event listeners. If bindClickEvents() is ever changed to
+        // use addEventListener instead, be sure to add an explicit cleanup/removal step to avoid
+        // stacking multiple handlers on the same <td> elements.
         this.bindClickEvents();
         this.updateScoreDisplay();
         document.querySelector('table').classList.add('goldrun-active');
