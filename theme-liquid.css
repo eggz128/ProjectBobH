@@ -94,7 +94,9 @@ tr :nth-child(7) {
 
 
 table span {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
     background-color: yellow;
     box-shadow:
@@ -109,6 +111,14 @@ table span {
             0% 50%);
     inset: 10px 15px;
 
+}
+
+table span[data-length="3"] {
+    font-size: 0.8em;
+}
+
+table span[data-length="4"] {
+    font-size: 0.6em;
 }
 
 .bl,

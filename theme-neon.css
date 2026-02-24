@@ -82,6 +82,14 @@ table span {
     text-shadow: 0 0 5px var(--neon-cyan);
 }
 
+table span[data-length="3"] {
+    font-size: 0.8em;
+}
+
+table span[data-length="4"] {
+    font-size: 0.6em;
+}
+
 .bl,
 .bl span {
     background-color: var(--neon-cyan);

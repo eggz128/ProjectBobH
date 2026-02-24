@@ -48,7 +48,12 @@ export class GoldrunGame extends BlockbustersGame {
             [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
         }
         const spans = document.querySelectorAll("td > span");
-        spans.forEach((span, i) => { if (shuffled[i]) span.innerText = shuffled[i]; });
+        spans.forEach((span, i) => {
+            if (shuffled[i]) {
+                span.innerText = shuffled[i];
+                span.setAttribute('data-length', shuffled[i].length);
+            }
+        });
         this.questionManager.resetCurrentSelection();
         this.isResetting = false;
     }
@@ -181,5 +186,6 @@ export class GoldrunGame extends BlockbustersGame {
         this.stopTimer();
         document.querySelector('table').classList.remove('goldrun-active');
         document.getElementById('goldrun-timer').classList.remove('goldrun-active');
+        document.querySelectorAll("td > span").forEach(span => span.removeAttribute('data-length'));
     }
 }

@@ -56,7 +56,12 @@ export class BlockbustersGame {
             [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
         }
         const spans = document.querySelectorAll("td > span");
-        spans.forEach((span, i) => { if (shuffled[i]) span.innerText = shuffled[i]; });
+        spans.forEach((span, i) => {
+            if (shuffled[i]) {
+                span.innerText = shuffled[i];
+                span.setAttribute('data-length', shuffled[i].length);
+            }
+        });
         this.questionManager.resetCurrentSelection();
         this.isResetting = false;
     }

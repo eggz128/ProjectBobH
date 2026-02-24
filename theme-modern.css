@@ -74,6 +74,14 @@ table span {
     justify-content: center;
 }
 
+table span[data-length="3"] {
+    font-size: 0.8em;
+}
+
+table span[data-length="4"] {
+    font-size: 0.6em;
+}
+
 .bl,
 .bl span {
     background-color: #3498db;
