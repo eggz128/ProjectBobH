@@ -1,0 +1,369 @@
+@import url('https://fonts.cdnfonts.com/css/seven-segment');
+/* Game Board Font */
+@import url('https://fonts.cdnfonts.com/css/dseg14-classic');
+/* Scoreboard Font - fixed width */
+@import url('https://fonts.cdnfonts.com/css/lcd-display-grid');
+/* Goldrun Timer Font */
+
+/* Game Board */
+:root {
+    --hex-w: 150px;
+    --hex-h: 100px
+}
+
+body {
+    background: black;
+}
+
+table {
+    font-family: 'Seven Segment', sans-serif;
+    font-size: 75px;
+    text-transform: capitalize;
+}
+
+
+td,
+th {
+    background-color: orange;
+    box-shadow:
+        0px -10px 30px -10px black inset,
+        0px 10px 30px -10px white inset;
+    width: var(--hex-w);
+    height: var(--hex-h);
+    position: relative;
+    text-align: center;
+    clip-path: polygon(20% 0%,
+            80% 0%,
+            100% 50%,
+            80% 100%,
+            20% 100%,
+            0% 50%);
+    font-weight: normal;
+
+}
+
+td::after,
+th::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    content: "";
+    mix-blend-mode: luminosity;
+    background: radial-gradient(circle at bottom,
+            #333333,
+            #333333 20%,
+            #fff 55%,
+            #333333 65%);
+    opacity: 15%;
+}
+
+tr * {
+    --base-height-offset: calc(var(--hex-h) / 2);
+    top: calc(var(--base-height-offset) + 2px);
+}
+
+tr :nth-child(2n) {
+    top: 0px;
+    left: calc(var(--hex-w) / 5 * -1);
+}
+
+tr :nth-child(3) {
+    left: calc(var(--hex-w) / 5 * 2 * -1);
+}
+
+tr :nth-child(4) {
+    left: calc(var(--hex-w) / 5 * 3 * -1);
+}
+
+tr :nth-child(5) {
+    left: calc(var(--hex-w) / 5 * 4 * -1);
+}
+
+tr :nth-child(6) {
+    left: calc(var(--hex-w) / 5 * 5 * -1);
+}
+
+tr :nth-child(7) {
+    left: calc(var(--hex-w) / 5 * 6 * -1);
+}
+
+
+
+table span {
+    display: block;
+    position: absolute;
+    background-color: yellow;
+    box-shadow:
+        -0px -10px 30px -10px white inset,
+        0px 10px 30px -10px black inset;
+    padding: 1% 0;
+    clip-path: polygon(20% 0%,
+            80% 0%,
+            100% 50%,
+            80% 100%,
+            20% 100%,
+            0% 50%);
+    inset: 10px 15px;
+
+}
+
+.bl,
+.bl span {
+    background-color: deepskyblue;
+    color: transparent;
+}
+
+.wh,
+.wh span {
+    background-color: white;
+    color: transparent;
+}
+
+.yl,
+.yl span {
+    background-color: yellow;
+    color: transparent;
+}
+
+.bk,
+.bk span {
+    background-color: black;
+    color: transparent;
+    opacity: 0;
+}
+
+.active {
+    animation: 0.5s ease-in-out 0s infinite alternate blink;
+}
+
+@keyframes blink {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* Goldrun styles */
+
+table.goldrun-active span {
+    background-color: rgb(65, 180, 58);
+}
+
+table.goldrun-active td {
+    background-color: rgb(0, 128, 7);
+}
+
+
+table.goldrun-active .bk,
+table.goldrun-active .bk span,
+/* Change White (top/bottom) to black */
+table.goldrun-active th.wh,
+table.goldrun-active th.wh span {
+    background-color: black;
+}
+
+/* Wh or Bl captured cells turn orange */
+table.goldrun-active .bl,
+table.goldrun-active .bl span,
+table.goldrun-active .wh,
+table.goldrun-active .wh span {
+    background-color: orange;
+}
+
+/* Goldrun timer */
+#goldrun-timer {
+    display: none;
+    position: relative;
+    width: 4ch;
+    top: 20px;
+    left: 20px;
+    font-family: 'LCD Display Grid', sans-serif;
+    font-size: 150px;
+    color: deepskyblue;
+    background: #000;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 2px solid deepskyblue;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+}
+
+#goldrun-timer.goldrun-active {
+    display: block;
+}
+
+/* Controls */
+
+#controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 280px;
+    color: white;
+    background: rgba(40, 40, 40, 0.8);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #444;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#scoreboard {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.score-item {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Seven Segment', sans-serif;
+    cursor: pointer;
+    /* transition: transform 0.1s, opacity 0.2s; */
+}
+
+
+/* .score-item:hover {
+    opacity: 0.8;
+}
+
+.score-item:active {
+    transform: scale(0.95);
+} */
+
+.score-item span {
+    font-family: 'DSEG14 Classic', sans-serif;
+    display: inline;
+    position: static;
+    background-color: transparent;
+    padding: 0;
+    clip-path: none;
+    color: inherit;
+    font-size: 36px;
+}
+
+.score-item.bl {
+    border: 2px solid deepskyblue;
+    color: deepskyblue;
+    background: rgba(0, 191, 255, 0.1);
+}
+
+.score-item.wh {
+    border: 2px solid white;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#controls button:not(#scoreboard button) {
+    background: #333;
+    border: 1px solid #555;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+}
+
+#controls button:not(#scoreboard button):hover {
+    background: #444;
+    border-color: #777;
+    transform: translateY(-1px);
+}
+
+#controls hr {
+    border: none;
+    border-top: 1px solid #444;
+    margin: 5px 0;
+}
+
+#controls p {
+    font-size: 14px;
+    color: #aaa;
+    margin: 0;
+    text-align: center;
+}
+
+/* Quizmaster Controls */
+.quizmaster-controls {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+}
+
+.toggle-label {
+    display: block;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+#question-display-panel {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 600px;
+    background: #2a2a2a;
+    color: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    border-left: 5px solid #ff6b6b;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.question-header {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #f5f5f5;
+}
+
+.answer-text {
+    color: #ccc;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.trivia-text {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #88c0d0;
+    border-top: 1px solid #444;
+    padding-top: 0.5rem;
+}
+
+.question-controls {
+    margin-top: 1rem;
+    text-align: right;
+}
+
+.btn-secondary {
+    background-color: #444;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background-color: #555;
+}
